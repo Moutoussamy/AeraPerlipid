@@ -52,5 +52,14 @@ def collect_data(XstFile,nb_lipid):
 
     return aera_per_lipid,Time
 
+def WriteResults(time,aera_per_lipid):
+    output = open("aera_per_lipid.dat","w")
+
+    for i in range(len(time)):
+        output.write("%f,%f\n"%(time[i],aera_per_lipid[i]))
+
+    output.close()
+
 if __name__ == '__main__':
-    aera_per_lipid = collect_data(sys.argv[1],int(sys.argv[2]))
+    aera_per_lipid, time = collect_data(sys.argv[1],int(sys.argv[2]))
+    WriteResults(time, aera_per_lipid)
