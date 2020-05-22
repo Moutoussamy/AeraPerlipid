@@ -11,8 +11,6 @@ __copyright__ = "copyleft"
 __date__ = "2020/05"
 
 import sys
-import os
-import numpy as np
 import matplotlib.pyplot as plt
 
 
@@ -26,7 +24,7 @@ def Convert_Step_to_Time(step,time_step):
     """
 
     time = float(float((step*time_step))/1000000)
-    print(time)
+
     return time
 
 
@@ -53,6 +51,12 @@ def collect_data(XstFile,nb_lipid):
     return aera_per_lipid,Time
 
 def WriteResults(time,aera_per_lipid):
+    """
+    Write data in a file (aera_per_lipid.dat)
+    :param time: list with the time
+    :param aera_per_lipid: list of aera per lipid
+    :return:
+    """
     output = open("aera_per_lipid.dat","w")
 
     for i in range(len(time)):
@@ -60,6 +64,19 @@ def WriteResults(time,aera_per_lipid):
 
     output.close()
 
+def PlotAeraPerLipid(time,aera_per_lipid):
+    """
+    Plot the aera per lipid in function of time
+    :param time: Time in ns
+    :param aera_per_lipid: aera per lipid
+    :return: plot (aera_per_lipid.png)
+    """
+    plt.plot(time,aera_per_lipid, color="#465C85", linewidth=2)
+    plt.xlabel("Time (ns)")
+    plt.ylabel(r"Aera per lipid ($\AA$^2)")
+    plt.savefig("aera_per_lipid.png", dpi=300, orientation='portrait')
+
 if __name__ == '__main__':
     aera_per_lipid, time = collect_data(sys.argv[1],int(sys.argv[2]))
     WriteResults(time, aera_per_lipid)
+    PlotAeraPerLipid(time,aera_per_lipid)
